@@ -38,39 +38,60 @@ function shuffle(array) {
 }
 
 function flip(elem){
-   elem.classList.add('open').add('show');
+   elem.classList.add('show');
+   elem.classList.add('open');
+}
+
+function match(elem){
+    var matched = document.getElementsByClassName('show');
+
+    for(var a=0; a<matched.length; a++){
+        if(matched[a].classList.contains(elem.classList.item[1])){
+            elem.classList.add('match');
+            elem.classList.add('match');
+            matched[a].classList.add('match');
+            matched[a].classList.remove('open');
+        }
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
     var random_cards = shuffle(card_symbols);
 
-    for(var c_h_i in card_holders){
-        if(card_holders[c_h_i].classList.length > 1){
-           card_holders[c_h_i].classList.remove(card_holder.classList.item[1]);
+    for(var i=0; i<card_holders.length; i++){
+
+        console.log(card_holders[i].classList);
+
+        if(card_holders[i].classList.length > 1){
+           card_holders[i].classList.remove(card_holders.classList.item[1]);
         }
 
-        card_holders[c_h_i].classList.add(random_cards[c_h_i]);
+        card_holders[i].classList.add(random_cards[i]);
     }
+
+    for(var c=0; c<cards.length; c++){
+        cards[c].addEventListener("click", function(event) {
+            console.log("card flipped!");
+            flip(this);
+            match(this);
+
+        });
+    }
+
 });
 
 refresh_btn.addEventListener("click", function(event) {
     var random_cards = shuffle(card_symbols);
 
-    for(var c_h_i in card_holders){
-        if(card_holders[c_h_i].classList.length > 1){
-            card_holders[c_h_i].classList.remove(card_holder.classList.item[1]);
+    for(var h=0; h<card_holders.length; h++){
+        if(card_holders[h].classList.length > 1){
+            card_holders[h].classList.remove(card_holders.classList.item[1]);
         }
 
-        card_holders[c_h_i].classList.add(random_cards[c_h_i]);
+        card_holders[h].classList.add(random_cards[h]);
     }
 });
 
-for(var c_i in cards){
-    cards[c_i].addEventListener("click", function(event) {
-        console.log("card flipped!");
-
-    });
-}
 
 
 /*
