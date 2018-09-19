@@ -44,19 +44,24 @@ function flip(elem){
    elem.classList.add('open');
 }
 //Card match function
-function match(elem){
-    var matched = document.getElementsByClassName('card');
+function match(element){
+    var opened = document.getElementsByClassName('open');
+    //console.log(matched);
+    for(var a=0; a<opened.length; a++){
 
-    for(var a=0; a<matched.length; a++){
-        console.log(matched[a].children[0].classList.item[1]);
-        console.log(elem.children[0].classList);
-        if(matched[a].children[0].classList.contains(elem.children[0].classList.item[1])){
+        console.log(opened[a].lastElementChild.classList[1]);
+        console.log(element.lastElementChild.classList[1]);
+
+        if(element.lastElementChild.classList.contains(opened[a].lastElementChild.classList[1]) && a > 1){
             
-            elem.classList.add('match');
-            elem.classList.remove('open');
-            matched[a].classList.add('match');
-            matched[a].classList.remove('open');
+            element.classList.add('match');
+            element.classList.remove('open');
+            opened[a].classList.add('match');
+            opened[a].classList.remove('open');
+
+            break;
         }
+        
     }
 }
 
@@ -68,17 +73,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
         console.log(card_holders[i].classList);
 
         if(card_holders[i].classList.length > 1){
-           card_holders[i].classList.remove(card_holders.classList.item[1]);
+           card_holders[i].classList.remove(card_holders.classList[1]);
+           
         }
-
         card_holders[i].classList.add(random_cards[i]);
     }
 
     for(var c=0; c<cards.length; c++){
         cards[c].addEventListener("click", function(event) {
             console.log("card flipped!");
-            flip(this);
-            match(this);
+            flip(event.target);
+            match(event.target);
 
         });
     }
@@ -87,13 +92,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 refresh_btn.addEventListener("click", function(event) {
     var random_cards = shuffle(card_symbols);
+    var card_holders_f = card_deck.getElementsByClassName('fa');
 
-    for(var h=0; h<card_holders.length; h++){
-        if(card_holders[h].classList.length > 1){
-            card_holders[h].classList.remove(card_holders.classList.item[1]);
+    for(var h=0; h<card_holders_f.length; h++){
+        if(card_holders_f[h].classList.contains('open')){
+            card_holders_f[h].classList.remove('open');              
+            
         }
-
-        card_holders[h].classList.add(random_cards[h]);
+        card_holders_f[h].classList.add(random_cards[h]);
+        //remove 'open' class
     }
 });
 
