@@ -43,24 +43,46 @@ function flip(elem){
    elem.classList.add('show');
    elem.classList.add('open');
 }
+
+function flipback(el){
+    el.classList.remove('show');
+    el.classList.remove('open');
+}
+
 //Card match function
+var opened = [];
+
 function match(element){
-    var opened = document.getElementsByClassName('open');
-    //console.log(matched);
-    for(var a=0; a<opened.length; a++){
+    opened.push(element);
+    console.log(opened);
 
-        console.log(opened[a].lastElementChild.classList[1]);
-        console.log(element.lastElementChild.classList[1]);
+    element.removeEventListener('click', { capture: false });
 
-        if(element.lastElementChild.classList.contains(opened[a].lastElementChild.classList[1]) && a > 1){
-            
-            element.classList.add('match');
+    for(var a=0; a<opened.length-1; a++){
+
+        //console.log(element.lastElementChild.classList[1]);
+        //console.log(opened[a].lastElementChild.classList[1]);
+
+        console.log(element.lastElementChild.classList.contains(opened[a].lastElementChild.classList[1]));
+
+        if(element.lastElementChild.classList.contains(opened[a].lastElementChild.classList[1]) && opened.length>1){
+
             element.classList.remove('open');
-            opened[a].classList.add('match');
+            element.classList.add('match');
             opened[a].classList.remove('open');
+            opened[a].classList.add('match');
+           // break;
+        } else {
+            //flipback(element);
+            element.classList.add('fail');
+            setTimeout(function(){
+                element.classList.remove('open');
+                element.classList.remove('show');
+                element.classList.remove('fail');
+            }, 1000);
 
-            break;
         }
+
         
     }
 }
@@ -92,12 +114,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 refresh_btn.addEventListener("click", function(event) {
     var random_cards = shuffle(card_symbols);
+    var card_holders_c = card_deck.getElementsByClassName('card');
     var card_holders_f = card_deck.getElementsByClassName('fa');
 
     for(var h=0; h<card_holders_f.length; h++){
-        if(card_holders_f[h].classList.contains('open')){
-            card_holders_f[h].classList.remove('open');              
-            
+        if(card_holders_f[h].classList.contains('open') && card_holders_f[h].classList.contains('show')){
+            card_holders_c[h].lastElementChild.classList.remove(card_holders_c[h].lastElementChild.classList[1]);
+            card_holders_f[h].classList.remove('open');
+            card_holders_f[h].classList.remove('show');
+
         }
         card_holders_f[h].classList.add(random_cards[h]);
         //remove 'open' class
