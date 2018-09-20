@@ -44,6 +44,7 @@ var opened = [];
 function flip(elem){
    elem.classList.add('show');
    elem.classList.add('open');
+   elem.removeEventListener('click', { capture: false });
 }
 
 function flipback(el){
@@ -56,22 +57,17 @@ function match(element){
     opened.push(element);
     console.log(opened);
 
-    element.removeEventListener('click', { capture: false });
+    //element.removeEventListener('click', { capture: false });
 
     for(var a=0; a<opened.length-1; a++){
-
         //console.log(element.lastElementChild.classList[1]);
         //console.log(opened[a].lastElementChild.classList[1]);
-
-        console.log(element.lastElementChild.classList.contains(opened[a].lastElementChild.classList[1]));
-
+        //console.log(element.lastElementChild.classList.contains(opened[a].lastElementChild.classList[1]));
         if(element.lastElementChild.classList.contains(opened[a].lastElementChild.classList[1]) && opened.length>1){
-
             element.classList.remove('open');
             element.classList.add('match');
             opened[a].classList.remove('open');
             opened[a].classList.add('match');
-
             opened.length = 0;
            // break;
         } else {
@@ -81,12 +77,9 @@ function match(element){
                 element.classList.remove('open');
                 element.classList.remove('show');
                 element.classList.remove('fail');
-            }, 1000);
+            }, 600);
             opened.pop(element);
-
-        }
-
-        
+        }     
     }
 }
 
@@ -109,6 +102,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
             console.log("card flipped!");
             flip(event.target);
             match(event.target);
+
+            /*
+                chek the entire card array, if they all have class 'match' to display 'Game over' screen
+            */
+           if(document.getElementsByClassName("match").length === 16){
+                // display 'game over' screen
+           }
 
         });
     }
