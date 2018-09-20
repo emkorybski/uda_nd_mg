@@ -38,6 +38,8 @@ function shuffle(array) {
     return array;
 }
 
+var opened = [];
+
 // Card flip function
 function flip(elem){
    elem.classList.add('show');
@@ -50,8 +52,6 @@ function flipback(el){
 }
 
 //Card match function
-var opened = [];
-
 function match(element){
     opened.push(element);
     console.log(opened);
@@ -71,6 +71,8 @@ function match(element){
             element.classList.add('match');
             opened[a].classList.remove('open');
             opened[a].classList.add('match');
+
+            opened.length = 0;
            // break;
         } else {
             //flipback(element);
@@ -80,6 +82,7 @@ function match(element){
                 element.classList.remove('show');
                 element.classList.remove('fail');
             }, 1000);
+            opened.pop(element);
 
         }
 
