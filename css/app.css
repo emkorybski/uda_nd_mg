@@ -37,6 +37,20 @@ h1 {
  * Styles for the deck of cards
  */
 
+#game-over {
+    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    font-family: 'Coda', cursive;
+}
+
+#game-over button {
+    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    font-family: 'Coda', cursive;
+    padding: 10px;
+
+    
+}
+
+
 .deck {
     width: 660px;
     min-height: 680px;
