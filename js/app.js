@@ -16,6 +16,12 @@ var card_holders = card_deck.getElementsByClassName('fa');
 
 var refresh_btn = document.getElementById("refresh");
 
+var close_btn = document.getElementById("close");
+
+var end_card = document.getElementById('game-over');
+
+var play_again = document.getElementById('play-again');
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -108,28 +114,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
             */
            if(document.getElementsByClassName("match").length === 16){
                 // display 'game over' screen
+               end_card.classList.add('flipped');
            }
-
         });
     }
 
 });
 
 refresh_btn.addEventListener("click", function(event) {
-    var random_cards = shuffle(card_symbols);
-    var card_holders_c = card_deck.getElementsByClassName('card');
-    var card_holders_f = card_deck.getElementsByClassName('fa');
+    window.location.reload();
+    end_card.style.display = "none";
+});
 
-    for(var h=0; h<card_holders_f.length; h++){
-        if(card_holders_f[h].classList.contains('open') && card_holders_f[h].classList.contains('show')){
-            card_holders_c[h].lastElementChild.classList.remove(card_holders_c[h].lastElementChild.classList[1]);
-            card_holders_f[h].classList.remove('open');
-            card_holders_f[h].classList.remove('show');
+close_btn.addEventListener("click", function(event) {
+    end_card.style.display = "none";
+});
 
-        }
-        card_holders_f[h].classList.add(random_cards[h]);
-        //remove 'open' class
-    }
+play_again.addEventListener("click", function(event) {
+    window.location.reload();
+    end_card.style.display = "none";
 });
 
 

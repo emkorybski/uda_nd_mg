@@ -16,6 +16,7 @@
         </header>
 
         <section class="score-panel">
+            <!--
         	<ul class="stars">
         		<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
@@ -23,13 +24,13 @@
         	</ul>
 
         	<span class="moves">3</span> Moves
-
+            -->
             <div class="restart" id="refresh">
         		<i class="fa fa-repeat"></i>
         	</div>
         </section>
 
-        <ul class="deck" id="deck">
+        <ul class="card_face deck" id="deck">
             <!-- add class 'match' to 'card' -->
             <li class="card">
                 <i class="fa"></i>
@@ -81,9 +82,10 @@
                 <i class="fa"></i>
             </li>
         </ul>
-        <div id='game-over'>
+        <div class="card_face" id='game-over'>
+            <i id="close" class="fa fa-close"></i>
             <h4>Congrats, you won the game</h4>
-            <button>Play again</button>
+            <button id="play-again">Play again</button>
         </div>
     </div>
 
