@@ -4,7 +4,7 @@
 var card_symbols =['fa-diamond','fa-paper-plane-o','fa-anchor','fa-bolt','fa-cube','fa-leaf','fa-bomb','fa-bicycle','fa-diamond','fa-paper-plane-o','fa-anchor','fa-bolt','fa-cube','fa-leaf','fa-bomb','fa-bicycle'];
 
 /*
- * Auxiliary variable using provided DOM structure   
+ * Auxiliary variables using provided DOM structure
 
 */
 
@@ -18,10 +18,19 @@ var refresh_btn = document.getElementById("refresh");
 
 var close_btn = document.getElementById("close");
 
-var end_card = document.getElementById('game-over');
+var end_card = document.getElementById('card-bg');
 
 var play_again = document.getElementById('play-again');
 
+// timer setup
+var timer = new Timer('1 second');
+
+//console.log(timer.ticks());
+/*
+timer.every('5 seconds', function () {
+    console.log(timer.ticks());
+});
+*/
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -56,19 +65,16 @@ function flip(elem){
 function flipback(el){
     el.classList.remove('show');
     el.classList.remove('open');
+    el.classList.remove('match');
 }
 
 //Card match function
 function match(element){
     opened.push(element);
-    console.log(opened);
 
     //element.removeEventListener('click', { capture: false });
 
     for(var a=0; a<opened.length-1; a++){
-        //console.log(element.lastElementChild.classList[1]);
-        //console.log(opened[a].lastElementChild.classList[1]);
-        //console.log(element.lastElementChild.classList.contains(opened[a].lastElementChild.classList[1]));
         if(element.lastElementChild.classList.contains(opened[a].lastElementChild.classList[1]) && opened.length>1){
             element.classList.remove('open');
             element.classList.add('match');
@@ -89,50 +95,83 @@ function match(element){
     }
 }
 
-document.addEventListener("DOMContentLoaded", function(event) {
+function firstLoad(ev){
     var random_cards = shuffle(card_symbols);
 
     for(var i=0; i<card_holders.length; i++){
 
-        console.log(card_holders[i].classList);
+        //console.log(card_holders[i].classList);
 
         if(card_holders[i].classList.length > 1){
-           card_holders[i].classList.remove(card_holders.classList[1]);
-           
+            card_holders[i].classList.remove(card_holders[i].classList[1]);
+
         }
         card_holders[i].classList.add(random_cards[i]);
     }
 
     for(var c=0; c<cards.length; c++){
         cards[c].addEventListener("click", function(event) {
-            console.log("card flipped!");
             flip(event.target);
             match(event.target);
 
             /*
-                chek the entire card array, if they all have class 'match' to display 'Game over' screen
-            */
-           if(document.getElementsByClassName("match").length === 16){
+             check the entire card array, if they all have class 'match' to display 'Game over' screen
+             */
+            //console.log(document.getElementsByClassName("match").length);
+
+            if(document.getElementsByClassName("match").length === 16){
                 // display 'game over' screen
-               end_card.classList.add('flipped');
-           }
+                end_card.classList.add('flipped');
+                document.getElementById("timer-text").textContent = timer.ticks();
+                timer.stop();
+            }
         });
     }
 
+    setTimeout(function(){
+        timer.start();
+    }, 500);
+}
+
+function playAgain(evt){
+    var random_cards = shuffle(card_symbols);
+
+    opened = [];
+
+    for(var j=0; j<cards.length; j++){
+        flipback(cards[j]);
+    }
+
+    for(var i=0; i<card_holders.length; i++){
+
+        if(card_holders[i].classList.length > 1){
+            card_holders[i].classList.remove(card_holders[i].classList[1]);
+
+        }
+        card_holders[i].classList.add(random_cards[i]);
+    }
+
+    setTimeout(function(){
+        timer.reset();
+        timer.start();
+    }, 500);
+    //end_card.classList.add('flipped');
+}
+
+
+document.addEventListener("DOMContentLoaded", firstLoad(event));
+
+refresh_btn.addEventListener("click", function(event){
+    playAgain(event);
 });
 
-refresh_btn.addEventListener("click", function(event) {
-    window.location.reload();
-    end_card.style.display = "none";
-});
-
-close_btn.addEventListener("click", function(event) {
-    end_card.style.display = "none";
+close_btn.addEventListener("click", function() {
+    end_card.classList.remove('flipped');
 });
 
 play_again.addEventListener("click", function(event) {
-    window.location.reload();
-    end_card.style.display = "none";
+    playAgain(event);
+    end_card.classList.remove('flipped');
 });
 
 
