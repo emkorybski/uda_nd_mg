@@ -22,8 +22,15 @@ var end_card = document.getElementById('card-bg');
 
 var play_again = document.getElementById('play-again');
 
+var main_timer = document.getElementById('seconds');
+
 // timer setup
 var timer = new Timer('1 second');
+
+var moves = 0;
+var moves_elem = document.getElementById('moves');
+
+var rating = 100; // based on approx amount of maximum clicks in a situation when players doesn't remember anything he previously saw
 
 //console.log(timer.ticks());
 /*
@@ -72,8 +79,6 @@ function flipback(el){
 function match(element){
     opened.push(element);
 
-    //element.removeEventListener('click', { capture: false });
-
     for(var a=0; a<opened.length-1; a++){
         if(element.lastElementChild.classList.contains(opened[a].lastElementChild.classList[1]) && opened.length>1){
             element.classList.remove('open');
@@ -85,6 +90,14 @@ function match(element){
         } else {
             //flipback(element);
             element.classList.add('fail');
+
+            moves_elem.textContent = moves++;
+
+
+            /*
+             * checking: if(rating < 70) : take one start away (change color to light grey), if(rating < 35) : take away 2 stars (change color to light grey)
+             */
+
             setTimeout(function(){
                 element.classList.remove('open');
                 element.classList.remove('show');
@@ -123,6 +136,7 @@ function firstLoad(ev){
                 // display 'game over' screen
                 end_card.classList.add('flipped');
                 document.getElementById("timer-text").textContent = timer.ticks();
+                document.getElementById("final-moves").textContent = moves;
                 timer.stop();
             }
         });
@@ -130,6 +144,9 @@ function firstLoad(ev){
 
     setTimeout(function(){
         timer.start();
+        timer.every('1 seconds', function () {
+            main_timer.textContent = timer.ticks();
+        });
     }, 500);
 }
 
@@ -137,6 +154,9 @@ function playAgain(evt){
     var random_cards = shuffle(card_symbols);
 
     opened = [];
+
+    moves = 0;
+    moves_elem.textContent = moves;
 
     for(var j=0; j<cards.length; j++){
         flipback(cards[j]);

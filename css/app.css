@@ -152,7 +152,7 @@ h1 {
     text-align: left;
     width: 345px;
     margin-bottom: 10px;
-    color: lightgray;
+    color: darkslateblue;
 }
 
 .score-panel .stars {
@@ -171,4 +171,9 @@ h1 {
     float: right;
     cursor: pointer;
     color: black;
+}
+
+#seconds {
+    font-weight: bold;
+
 }
