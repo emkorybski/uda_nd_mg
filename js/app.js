@@ -102,7 +102,7 @@ function match(element){
                 element.classList.remove('open');
                 element.classList.remove('show');
                 element.classList.remove('fail');
-            }, 600);
+            }, 500);
             opened.pop(element);
         }     
     }
@@ -147,7 +147,7 @@ function firstLoad(ev){
         timer.every('1 seconds', function () {
             main_timer.textContent = timer.ticks();
         });
-    }, 500);
+    }, 200);
 }
 
 function playAgain(evt){
@@ -174,7 +174,7 @@ function playAgain(evt){
     setTimeout(function(){
         timer.reset();
         timer.start();
-    }, 500);
+    }, 200);
     //end_card.classList.add('flipped');
 }
 
