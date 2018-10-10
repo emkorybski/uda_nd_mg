@@ -30,7 +30,12 @@ var timer = new Timer('1 second');
 var moves = 0;
 var moves_elem = document.getElementById('moves');
 
-var rating = 100; // based on approx amount of maximum clicks in a situation when players doesn't remember anything he previously saw
+var rating = 40; // based on approx amount of maximum clicks in a situation when players doesn't remember anything he previously saw
+var three = document.getElementById('three');
+var two = document.getElementById('second');
+
+var star_count = document.getElementById('star-rating');
+var star_counter = 3;
 
 //console.log(timer.ticks());
 /*
@@ -92,11 +97,15 @@ function match(element){
             element.classList.add('fail');
 
             moves_elem.textContent = moves++;
-
+            rating--;
 
             /*
-             * checking: if(rating < 70) : take one start away (change color to light grey), if(rating < 35) : take away 2 stars (change color to light grey)
+             * checking:
+             * if(rating < 55) ? take one star away (change color to light grey)
+             * if(rating < 28) : take away 2 stars (change color to light grey)
              */
+            if(rating < 22) { three.classList.add('lightgrey'); star_counter = 2; }  //take one star away (change color to light grey)
+            if(rating < 12) { two.classList.add('lightgrey'); star_counter = 1; }  //take away 2 stars (change color to light grey)
 
             setTimeout(function(){
                 element.classList.remove('open');
@@ -110,6 +119,10 @@ function match(element){
 
 function firstLoad(ev){
     var random_cards = shuffle(card_symbols);
+
+
+    //console.log(rating);
+
 
     for(var i=0; i<card_holders.length; i++){
 
@@ -137,6 +150,7 @@ function firstLoad(ev){
                 end_card.classList.add('flipped');
                 document.getElementById("timer-text").textContent = timer.ticks();
                 document.getElementById("final-moves").textContent = moves;
+                star_count.textContent = star_counter;
                 timer.stop();
             }
         });
@@ -154,6 +168,12 @@ function playAgain(evt){
     var random_cards = shuffle(card_symbols);
 
     opened = [];
+
+    rating = 40;
+    star_counter = 3;
+
+    three.classList.remove('lightgrey');
+    two.classList.remove('lightgrey')
 
     moves = 0;
     moves_elem.textContent = moves;
